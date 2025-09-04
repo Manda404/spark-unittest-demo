@@ -7,24 +7,22 @@ readme = "README.md"
 packages = [{ include = "spark_transform", from = "src" }]
 
 [tool.poetry.dependencies]
-python = ">=3.10,<3.12"     # PySpark 3.5.x supporte 3.10/3.11
-pyspark = "^3.5.1"          # version disponible et stable
+python = ">=3.10,<3.12"   # Python 3.10/3.11
+pyspark = "^3.5.6"        # version stable (3.5.x)
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.4.1"
 pytest-cov = "^6.0.0"
-ruff = "^0.6.0"
+ruff = "^0.6.9"
 coverage = "^7.6.0"
-
 
 [tool.ruff]
 line-length = 88
 target-version = "py311"
 
 [tool.ruff.lint]
-select = ["E", "F", "I"]   # E/F = règles flake8 de base, I = imports (ex-isort)
-fix = true                 # autoriser les corrections automatiques
-
+select = ["E", "F", "I"]   # E/F: règles de base flake8, I: imports (équivalent isort)
+fix = true                 # autoriser les corrections auto (pour ruff check --fix)
 
 [build-system]
 requires = ["poetry-core>=1.9.0"]
