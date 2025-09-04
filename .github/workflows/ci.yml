@@ -1,0 +1,73 @@
+name: CI  # 👋 Nom du workflow (onglet "Actions")
+
+on:
+  push:                      # 🚀 Lance la CI sur chaque push...
+    branches: [ main ]
+  pull_request:              # 🔁 ...et sur chaque Pull Request
+    branches: [ main ]
+
+jobs:
+  tests:                     # 🧪 Job unique: tests unitaires Spark
+    runs-on: ubuntu-latest   # 🐧 Runner GitHub (Ubuntu)
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.11"]  # 🐍 Versions Python testées en parallèle
+
+    steps:
+      # 1) Récupérer le code du repo
+      - name: 🚚 Checkout repository
+        uses: actions/checkout@v4          # 📦 Clone le dépôt dans le runner
+
+      # 2) Installer Python (version de la matrice)
+      - name: 🐍 Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5      # 🔧 Installe la version de Python demandée
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      # 3) Installer Java 11 (obligatoire pour PySpark)
+      - name: ☕ Set up Java 11 (required by Spark)
+        uses: actions/setup-java@v4        # 🔧 Installe Java via Temurin (OpenJDK)
+        with:
+          distribution: temurin            # 📦 Distribution OpenJDK
+          java-version: "11"               # ✅ Compatible PySpark 3.5.x
+
+      # 4) Installer Poetry (gestionnaire d’env & deps)
+      - name: 📦 Install Poetry
+        uses: abatilo/actions-poetry@v3    # 🔧 Action officielle Poetry
+        with:
+          poetry-version: "1.8.3"          # 🧭 Version stable recommandée
+
+      # 5) Configurer l’environnement virtuel Poetry
+      - name: 🧭 Configure Poetry virtualenv
+        run: |
+          poetry config virtualenvs.create true       # ✅ Crée un venv dédié
+          poetry config virtualenvs.in-project true   # 📁 Place le venv dans .venv/ (chemin prévisible)
+
+      # 6) Cache du venv + cache Poetry (accélère les runs)
+      - name: 🧠 Cache Poetry and venv
+        uses: actions/cache@v4
+        with:
+          path: |                                     # 📂 Répertoires mis en cache
+            .venv
+            ~/.cache/pypoetry
+          key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}  # 🔑 Clé basée sur le lockfile
+          restore-keys: |
+            ${{ runner.os }}-poetry-                 # ♻️ Fallback si la clé exacte n’existe pas
+
+      # 7) Installer les dépendances (prod + dev)
+      - name: 🛠️ Install dependencies
+        run: poetry install --no-interaction         # 📥 Installe pyspark, pytest, ruff, etc.
+
+      # 8) Lint + format (avec Ruff, remplace Black + isort)
+      - name: 🔍 Run Ruff checks
+        run: |
+          poetry run ruff check .           # 🔬 Lint + conventions + imports
+          poetry run ruff format --check .  # 🎨 Vérifie le formatage type Black
+
+      # 9) Lancer les tests unitaires (unittest)
+      - name: 🧪 Run unit tests (unittest)
+        env:
+          PYSPARK_PYTHON: ${{ github.workspace }}/.venv/bin/python  # 🧠 Force PySpark à utiliser le Python du venv Poetry
+          SPARK_LOCAL_IP: 127.0.0.1                                  # 🖧 Évite le warning "loopback address"
+        run: |
+          poetry run python -m unittest discover -s tests -v         # 🔎 Exécute tous les tests "test*_ut.py"
