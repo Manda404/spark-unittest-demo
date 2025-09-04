@@ -6,7 +6,7 @@ from spark_transform.transform import cast_numerics
 class TestCastNumerics(SparkTestCase):
     def test_casts_selected_columns_to_double(self):
         df = make_df(self.spark)
-        numeric_cols = ["Age","Height","Weight","FCVC","NCP","CH2O","FAF","TUE","CALC"]
+        numeric_cols = ["Age", "Height", "Weight", "FCVC", "NCP", "CH2O", "FAF", "TUE", "CALC"]
 
         out = cast_numerics(df, numeric_cols)
         dtypes = dict(out.dtypes)

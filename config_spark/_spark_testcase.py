@@ -13,8 +13,7 @@ class SparkTestCase(unittest.TestCase):
         warnings.filterwarnings("ignore", category=ResourceWarning)
 
         cls.spark = (
-            SparkSession.builder
-            .master("local[*]")
+            SparkSession.builder.master("local[*]")
             .appName(f"unittest-{cls.__name__}")
             .config("spark.ui.enabled", "false")
             # 👉 Force l’IP locale pour éviter le warning "loopback"

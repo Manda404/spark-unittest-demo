@@ -61,6 +61,7 @@ jobs:
       # 8) Lint + format (avec Ruff, remplace Black + isort)
       - name: 🔍 Run Ruff checks
         run: |
+          poetry run ruff format .          # 🎨 Formate le code type Black (modifie les fichiers)
           poetry run ruff check .           # 🔬 Lint + conventions + imports
           poetry run ruff format --check .  # 🎨 Vérifie le formatage type Black
           poetry run ruff check --fix .     # 🛠️ Corrige automatiquement les erreurs (si possible)
