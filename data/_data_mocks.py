@@ -1,6 +1,7 @@
 # tests/_data.py
 from dataclasses import dataclass
 
+
 @dataclass
 class ObesityRow:
     Age: float

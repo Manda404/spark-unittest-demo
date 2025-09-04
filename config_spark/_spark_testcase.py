@@ -1,8 +1,10 @@
 # config_spark/_spark_testcase.py
+import gc
 import unittest
 import warnings
-import gc
+
 from pyspark.sql import SparkSession
+
 
 class SparkTestCase(unittest.TestCase):
     @classmethod

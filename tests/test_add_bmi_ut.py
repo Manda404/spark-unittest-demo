@@ -2,6 +2,7 @@ from config_spark._spark_testcase import SparkTestCase
 from data._data_mocks import make_df
 from spark_transform.transform import add_bmi
 
+
 class TestAddBMI(SparkTestCase):
     def test_adds_bmi_when_cols_exist(self):
         df = make_df(self.spark)

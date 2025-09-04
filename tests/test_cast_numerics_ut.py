@@ -2,6 +2,7 @@ from config_spark._spark_testcase import SparkTestCase
 from data._data_mocks import make_df
 from spark_transform.transform import cast_numerics
 
+
 class TestCastNumerics(SparkTestCase):
     def test_casts_selected_columns_to_double(self):
         df = make_df(self.spark)

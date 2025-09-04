@@ -2,6 +2,7 @@ from config_spark._spark_testcase import SparkTestCase
 from data._data_mocks import make_df
 from spark_transform.transform import normalize_yes_no
 
+
 class TestNormalizeYesNo(SparkTestCase):
     def test_converts_known_tokens_and_handles_unknown(self):
         df = make_df(self.spark)

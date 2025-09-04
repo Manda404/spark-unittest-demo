@@ -16,11 +16,15 @@ pytest-cov = "^6.0.0"
 ruff = "^0.6.0"
 coverage = "^7.6.0"
 
+
 [tool.ruff]
 line-length = 88
-target-version = "py311"    # tu es en 3.11
-select = ["E", "F", "I"]    # lint de base + imports
-fix = true
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]   # E/F = règles flake8 de base, I = imports (ex-isort)
+fix = true                 # autoriser les corrections automatiques
+
 
 [build-system]
 requires = ["poetry-core>=1.9.0"]

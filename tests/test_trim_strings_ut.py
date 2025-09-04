@@ -2,6 +2,7 @@ from config_spark._spark_testcase import SparkTestCase
 from data._data_mocks import make_df
 from spark_transform.transform import trim_strings
 
+
 class TestTrimStrings(SparkTestCase):
     def test_trim_strings_only_trims_string_columns(self):
         df = make_df(self.spark)               # DF à partir de la dataclass
