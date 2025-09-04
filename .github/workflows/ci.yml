@@ -63,6 +63,7 @@ jobs:
         run: |
           poetry run ruff check .           # 🔬 Lint + conventions + imports
           poetry run ruff format --check .  # 🎨 Vérifie le formatage type Black
+          poetry run ruff check --fix .     # 🛠️ Corrige automatiquement les erreurs (si possible)
 
       # 9) Lancer les tests unitaires (unittest)
       - name: 🧪 Run unit tests (unittest)
