@@ -17,12 +17,12 @@ ruff = "^0.6.9"
 coverage = "^7.6.0"
 
 [tool.ruff]
-line-length = 88
+line-length = 100
 target-version = "py311"
+fix = true                 # autoriser les corrections auto (pour ruff check --fix)
 
 [tool.ruff.lint]
 select = ["E", "F", "I"]   # E/F: règles de base flake8, I: imports (équivalent isort)
-fix = true                 # autoriser les corrections auto (pour ruff check --fix)
 
 [build-system]
 requires = ["poetry-core>=1.9.0"]
